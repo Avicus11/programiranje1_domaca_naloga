@@ -46,12 +46,13 @@ let preveri_celico_lol j f grid =
   let ne_maram_te_domace = [1; 2; 3; 4; 5; 6; 7; 8; 9] in
   let w = f grid j in
   let matchalka ne_maram_te_domace w = 
-    let rec matchalka ne_maram_te_domace w vrag =
+    let rec matchalka' ne_maram_te_domace w vrag =
       match ne_maram_te_domace with
       | [] -> List.rev vrag
-      | x :: xs when List.mem x (Array.to_list w) -> matchalka xs w vrag
-      | x :: xs -> matchalka xs w (x :: vrag)
-    in matchalka ne_maram_te_domace w []
+      | x :: xs when List.mem x (Array.to_list w) -> matchalka' xs w vrag
+      | x :: xs -> matchalka' xs w (x :: vrag)
+    in matchalka' ne_maram_te_domace w []
+  in matchalka ne_maram_te_domace w
   
 let preveri_celico st_cel vr_cel box_ind grid =
   let preveri_celico_vrsticno = preveri_celico_lol vr_cel get_row grid in
@@ -122,7 +123,6 @@ let branch_state (state : state) : (state * state) option =
      v prvem predpostavi, da hipoteza velja, v drugem pa ravno obratno.
      Če bo vaš algoritem najprej poizkusil prvo možnost, vam morda pri drugi
      za začetek ni treba zapravljati preveč časa, saj ne bo nujno prišla v poštev. *)
-  let 
   match state with
     | None -> 
     | Some state -> 
